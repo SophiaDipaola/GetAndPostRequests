@@ -29,9 +29,21 @@ app.get('/dinosaurs/new', (req,res)=>{
 })
 
 app.post('/dinosaurs', (req,res)=>{
+    let dinos = fs.readFileSync('./dinosaurs.JSON')
+    dinos = JSON.parse(dinos)
+    //construct new dino with req.body values
+    const newDino = {
+        name: req.body.name,
+        type: req.body.type
+    }
+    //updates dinos with new dino
+    dinos.push(newDino)
+    fs.writeFileSync('./dinosaurs.JSON', JSON.stringify(dinos))
+    res.redirect('/dinosaurs')
+
     //this is coming from our form submit
     //we are going to looka t the req.body
-    console.log(req.body)
+    // console.log(req.body)
 })
 //SHOW view
 app.get('/dinosaurs/:index', (req,res)=>{
